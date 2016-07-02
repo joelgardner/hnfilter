@@ -5,35 +5,35 @@
 ####Inspired by [kristopolous's](https://news.ycombinator.com/item?id=10313519) awesome script that I had trouble getting working (I suspect a markup change in HN is the culprit).
 
 #### Input the following function into your browser console:
+```js
+function hn_filter(/* terms1, terms2, ..., termsN, removeMisses */) {
+  var termSets = Array.prototype.slice.call(arguments),
+      removeMisses = typeof(termSets[termSets.length - 1]) === 'boolean' ? termSets.pop() : false,
+      haystack = document.querySelectorAll('span.comment');
+  return Array.prototype.slice.call(haystack).filter(function(post) {
+    var hit = termSets.reduce(function(result, terms) {
+      return terms.reduce(function(result, term) {
+        var index = post.innerHTML.search(new RegExp(term, 'i'));
+        if (index === -1) return result;
+        post.innerHTML = [
+          post.innerHTML.substring(0, index),
+          '<span style="background-color:#03ffe8;">' + term + '</span>',
+          post.innerHTML.substring(index + term.length)
+        ].join('');
+        return true;
+      }, false) && result;
+    }, true);
+    if (!hit && removeMisses) _remove(post);
+    return hit;
+  }).length;
 
-    function hn_filter(/* terms1, terms2, ..., termsN, removeMisses */) {
-      var termSets = Array.prototype.slice.call(arguments),
-          removeMisses = typeof(termSets[termSets.length - 1]) === 'boolean' ? termSets.pop() : false,
-          haystack = document.querySelectorAll('span.comment');
-      return Array.prototype.slice.call(haystack).filter(function(post) {
-        var hit = termSets.reduce(function(result, terms) {
-          return terms.reduce(function(result, term) {
-            var index = post.innerHTML.search(new RegExp(term, 'i'));
-            if (index === -1) return result;
-            post.innerHTML = [
-              post.innerHTML.substring(0, index),
-              '<span style="background-color:#03ffe8;">' + term + '</span>',
-              post.innerHTML.substring(index + term.length)
-            ].join('');
-            return true;
-          }, false) && result;
-        }, true);
-        if (!hit && removeMisses) _remove(post);
-        return hit;
-      }).length;
-
-      function _remove(element) {
-        var holder = element;
-        while (holder.parentElement && !holder.id) holder = holder.parentElement;
-        holder.parentElement.removeChild(holder);
-      }
-    }
-
+  function _remove(element) {
+    var holder = element;
+    while (holder.parentElement && !holder.id) holder = holder.parentElement;
+    holder.parentElement.removeChild(holder);
+  }
+}
+```
 
 #### Then, in your browser console, use the function:
 

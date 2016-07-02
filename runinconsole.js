@@ -11,7 +11,6 @@ function hn_filter(/* terms1, terms2, ..., termsN, removeMisses */) {
   return Array.prototype.slice.call(haystack).filter(function(post) {
     var hit = termSets.reduce(function(result, terms) {
       return terms.reduce(function(result, term) {
-        var needle = new RegExp(term, 'gi');
         var index = post.innerHTML.search(new RegExp(term, 'i'));
         if (index === -1) return result;
         post.innerHTML = [

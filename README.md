@@ -3,14 +3,13 @@
 
 #### Input the following function into your browser console:
 
-    function hn_filter() {
+    function hn_filter(/* terms1, terms2, ..., termsN, removeMisses */) {
       var termSets = Array.prototype.slice.call(arguments),
           removeMisses = typeof(termSets[termSets.length - 1]) === 'boolean' ? termSets.pop() : false,
           haystack = document.querySelectorAll('span.comment');
       return Array.prototype.slice.call(haystack).filter(function(post) {
         var hit = termSets.reduce(function(result, terms) {
           return terms.reduce(function(result, term) {
-            var needle = new RegExp(term, 'gi');
             var index = post.innerHTML.search(new RegExp(term, 'i'));
             if (index === -1) return result;
             post.innerHTML = [
@@ -31,6 +30,7 @@
         holder.parentElement.removeChild(holder);
       }
     }
+
 
 #### Then, in your browser console, use the function:
 

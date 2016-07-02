@@ -42,7 +42,7 @@ Here, we're searching for posts matching containing `remote` and one of `react` 
 
     contains('remote') && (contains('react') || contains('javascript'))
 
-I.e., search terms are `OR`ed within argument, and `AND`ed across arguments.
+I.e., search terms are `OR`ed within an argument array; and `AND`ed across argument arrays.
 
 The result, 35, is the number the posts in the thread of matching the criteria.
 

@@ -1,7 +1,8 @@
 ----
 ## A simple script to filter results on HackerNews' Who is Hiring threads
 
-### Search/filter HackerNews Who is Hiring results and highlight search terms.  Inspired by [kristopolous's](https://news.ycombinator.com/item?id=10313519) awesome script that I had trouble getting working (I suspect a markup change in HN is the culprit).
+### Search/filter HackerNews Who is Hiring results and highlight search terms.
+####Inspired by [kristopolous's](https://news.ycombinator.com/item?id=10313519) awesome script that I had trouble getting working (I suspect a markup change in HN is the culprit).
 
 #### Input the following function into your browser console:
 

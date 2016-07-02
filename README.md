@@ -1,7 +1,7 @@
 ----
-## A simple script to filter results on HackerNews' Who is Hiring threads
+# A simple script to filter results on HackerNews' Who is Hiring threads
 
-### A simple script to search and filter HackerNews Who is Hiring results and highlight search terms.
+### Search/filter HackerNews Who is Hiring results and highlight search terms.
 
 #### Input the following function into your browser console:
 

@@ -3,37 +3,45 @@
 
 #### Input the following function into your browser console:
 
-    function hn_filter(term, removeNonmatching) {
+    function hn_filter() {
+      var termSets = Array.prototype.slice.call(arguments),
+          removeMisses = typeof(termSets[termSets.length - 1]) === 'boolean' ? termSets.pop() : false,
+          haystack = document.querySelectorAll('span.comment');
+      return Array.prototype.slice.call(haystack).filter(function(post) {
+        var hit = termSets.reduce(function(result, terms) {
+          return terms.reduce(function(result, term) {
+            var needle = new RegExp(term, 'gi');
+            var index = post.innerHTML.search(new RegExp(term, 'i'));
+            if (index === -1) return result;
+            post.innerHTML = [
+              post.innerHTML.substring(0, index),
+              '<span style="background-color:#03ffe8;">' + term + '</span>',
+              post.innerHTML.substring(index + term.length)
+            ].join('');
+            return true;
+          }, false) && result;
+        }, true);
+        if (!hit && removeMisses) _remove(post);
+        return hit;
+      }).length;
+
       function _remove(element) {
         var holder = element;
         while (holder.parentElement && !holder.id) holder = holder.parentElement;
         holder.parentElement.removeChild(holder);
       }
-
-      var needle = new RegExp(term, 'i'),
-          haystack = document.querySelectorAll('span.comment');
-      return Array.prototype.slice.call(haystack).reduce(function(count, post) {
-        var index = post.innerHTML.search(needle);
-        if (index === -1) return (removeNonmatching && _remove(post)) || count;
-        post.innerHTML = [
-          post.innerHTML.substring(0, index),
-          '<span style="background-color:#03ffe8;">' + term + '</span>',
-          post.innerHTML.substring(index + term.length)
-        ].join('');
-        return ++count;
-      }, 0);
     }
 
 #### Then, in your browser console, use the function:
 
-    $ [hn_filter('remote', true), hn_filter('javascript'), hn_filter('react')]
-    > [104, 21, 20]
+    $ hn_filter(['remote'], ['react', 'javascript'], true)
+    > 35
 
 
-Here, we're running the function three times.  In the first call, we're passing `true` as a second argument.  This will remove posts that do not contain the term.  In the last two calls, we do not remove posts that don't match.  The statement is equivalent to:
+Here, we're searching for posts matching containing `remote` and one of `react` or `javascript`.  We're also passing `true` as the last argument.  This will remove any posts that do not match the search criteria.  The call is equivalent to:
 
-    contains('remote') && (contains('javascript') || contains('react'))
+    contains('remote') && (contains('react') || contains('javascript'))
 
- The resulting statement is an array of integers representing the values of matched terms in the thread.  The thread had 104 posts mentioning `remote`, 21 for `javascript`, and 20 for `react`.
+The result (35) is the number the posts in the thread of matching the criteria.
 
-Note, since we removed posts that do not contain `remote` in the first call, the subsequent calls only search posts containing `remote`.
+We can simply not pass a boolean as the last argument, or pass `false`, to avoid removing non-matching posts from the thread.

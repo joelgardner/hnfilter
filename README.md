@@ -1,7 +1,7 @@
 ----
 # A simple script to filter results on HackerNews' Who is Hiring threads
 
-#### Input the following function into your console:
+#### Input the following function into your browser console:
 
     function hn_filter(term, removeNonmatching) {
       function _remove(element) {
@@ -24,7 +24,7 @@
       }, 0);
     }
 
-#### Then, in your console, use the function:
+#### Then, in your browser console, use the function:
 
     $ [hn_filter('remote', true), hn_filter('javascript'), hn_filter('react')]
     > [104, 21, 20]
